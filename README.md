@@ -2,15 +2,17 @@
 
 **Đinh Hải Triều — B23DCCN843 — Lớp 06** · Intelligent System Development · TS. Trần Đình Quế
 
+### 🔗 https://lon-xon.vercel.app
+
 Ba mô hình CNN trên ba bộ dữ liệu Kaggle, gộp thành **một web tĩnh 3 trang**.
 Suy luận chạy **100% trong trình duyệt** bằng [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/)
 (WebAssembly). Không có API, không có máy chủ suy luận, không có bước build.
 
 | Trang | Bộ dữ liệu (Kaggle) | Mô hình | Kết quả test |
 |---|---|---|---|
-| [`/cifar10`](cifar10.html) | [CIFAR-10](https://www.kaggle.com/datasets/quanbk/cifar10): 60.000 ảnh 32×32, 10 lớp | LeNet-5 · AlexNet · VGG-16 · **ResNet-50** | 69,1% · 86,0% · 91,5% · **92,2%** |
-| [`/flowers`](flowers.html) | [Flowers Recognition](https://www.kaggle.com/datasets/alxmamaev/flowers-recognition): 4.307 ảnh, 5 loài | LeNet-5 · AlexNet · VGG-16 · **ResNet-50 (ImageNet)** | 66,2% · 65,7% · 83,6% · **93,0%** |
-| [`/diabetes`](diabetes.html) | [Diabetes Prediction](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset): 100.000 hồ sơ | **CNN-1D** · MLP | ROC-AUC **0,9745** · 0,9749 |
+| [`/cifar10`](https://lon-xon.vercel.app/cifar10) | [CIFAR-10](https://www.kaggle.com/datasets/quanbk/cifar10): 60.000 ảnh 32×32, 10 lớp | LeNet-5 · AlexNet · VGG-16 · **ResNet-50** | 69,1% · 86,0% · 91,5% · **92,2%** |
+| [`/flowers`](https://lon-xon.vercel.app/flowers) | [Flowers Recognition](https://www.kaggle.com/datasets/alxmamaev/flowers-recognition): 4.307 ảnh, 5 loài | LeNet-5 · AlexNet · VGG-16 · **ResNet-50 (ImageNet)** | 66,2% · 65,7% · 83,6% · **93,0%** |
+| [`/diabetes`](https://lon-xon.vercel.app/diabetes) | [Diabetes Prediction](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset): 100.000 hồ sơ | **CNN-1D** · MLP | ROC-AUC **0,9745** · 0,9749 |
 
 Trang chủ (`/`) giới thiệu kiến trúc và có nút **tự kiểm chứng**: chạy mọi ảnh mẫu qua
 mọi mô hình ngay trên trình duyệt, rồi so với xác suất mà Python/onnxruntime đã
