@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIFAR-10 · CNN Lab</title>
+  <meta name="description" content="LeNet-5, AlexNet, VGG-16, ResNet-50 và CNN-1D trên CIFAR-10, Flowers Recognition, Diabetes Prediction — suy luận 100% trong trình duyệt bằng ONNX Runtime Web.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5bd3'/%3E%3Cg fill='%23fff'%3E%3Crect x='6' y='6' width='8' height='8' rx='1.5'/%3E%3Crect x='18' y='6' width='8' height='8' rx='1.5' opacity='.6'/%3E%3Crect x='6' y='18' width='8' height='8' rx='1.5' opacity='.6'/%3E%3Crect x='18' y='18' width='8' height='8' rx='1.5' opacity='.3'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.min.js"></script>
+</head>
+<body data-page="cifar10">
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <h1>CNN Lab <span class="muted">· Assignment 05</span></h1>
+          <p class="sub">Đinh Hải Triều · B23DCCN843 · Lớp 06 — Intelligent System Development, TS. Trần Đình Quế</p>
+        </div>
+      </a>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng/tối">◐</button>
+    </div>
+    <nav class="wrap tabs" aria-label="Các trang">
+      <a href="./">Trang chủ <small>tổng quan</small></a>
+      <a href="cifar10" aria-current="page">CIFAR-10 <small>10 lớp · 32×32</small></a>
+      <a href="flowers">Flowers <small>5 loài · 128×128</small></a>
+      <a href="diabetes">Diabetes <small>dữ liệu bảng · CNN-1D</small></a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <template id="imagePanelTpl">
+      <section class="panel">
+        <div class="intro"></div>
+        <div class="grid3">
+          <div class="card">
+            <h2><span class="step">1</span> Chọn ảnh</h2>
+            <label class="drop" tabindex="0">
+              <input type="file" accept="image/*" hidden>
+              <span class="drop-ico" aria-hidden="true">⇪</span>
+              <span><b>Tải ảnh lên</b>, kéo-thả hoặc dán (Ctrl+V)</span>
+              <small class="muted drop-hint"></small>
+            </label>
+            <p class="label">Hoặc chọn ảnh mẫu từ tập test (mô hình chưa từng thấy):</p>
+            <div class="samples"></div>
+          </div>
+
+          <div class="card">
+            <h2><span class="step">2</span> Chọn mô hình</h2>
+            <p class="label" style="margin-top:0">Con số bên phải = accuracy trên tập test.</p>
+            <div class="models" role="radiogroup"></div>
+            <button class="btn ghost compare-btn" type="button">So sánh cả 4 mô hình trên ảnh này</button>
+            <p class="note muted">Mô hình chỉ được tải về lần đầu dùng (trọng số int8), sau đó chạy offline trên máy bạn.</p>
+          </div>
+
+          <div class="card result">
+            <h2><span class="step">3</span> Kết quả</h2>
+            <div class="placeholder muted">Chọn một ảnh để bắt đầu.</div>
+            <div class="res-body" hidden>
+              <div class="seen">
+                <figure>
+                  <canvas class="orig"></canvas>
+                  <figcaption>ảnh gốc</figcaption>
+                </figure>
+                <span class="arrow" aria-hidden="true">→</span>
+                <figure>
+                  <canvas class="input"></canvas>
+                  <figcaption class="input-cap"></figcaption>
+                </figure>
+              </div>
+              <div class="verdict"></div>
+              <div class="bars"></div>
+              <div class="compare"></div>
+              <p class="meta muted"></p>
+            </div>
+            <div class="progress" hidden><div class="progress-bar"></div><span class="progress-txt"></span></div>
+          </div>
+        </div>
+        <details class="card extra">
+          <summary>Độ chính xác theo từng lớp trên tập test</summary>
+          <div class="perclass"></div>
+        </details>
+      </section>
+    </template>
+    <div id="tab-cifar10" class="tabpane active" data-ds="cifar10"></div>
+  </main>
+
+  <footer class="wrap foot muted">
+    Dữ liệu: <a href="https://www.kaggle.com/datasets/quanbk/cifar10" target="_blank" rel="noopener">CIFAR-10</a> ·
+    <a href="https://www.kaggle.com/datasets/alxmamaev/flowers-recognition" target="_blank" rel="noopener">Flowers Recognition</a> ·
+    <a href="https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset" target="_blank" rel="noopener">Diabetes Prediction</a>
+    — suy luận: ONNX Runtime Web <span id="ortVer"></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

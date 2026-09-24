@@ -1,0 +1,197 @@
+{
+ "dataset": "Diabetes Prediction",
+ "source": "kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset",
+ "features": [
+  "age",
+  "bmi",
+  "HbA1c_level",
+  "blood_glucose_level",
+  "hypertension",
+  "heart_disease",
+  "gender_male",
+  "smoking_never",
+  "smoking_No Info",
+  "smoking_current",
+  "smoking_former",
+  "smoking_ever",
+  "smoking_not current"
+ ],
+ "smoking": [
+  "never",
+  "No Info",
+  "current",
+  "former",
+  "ever",
+  "not current"
+ ],
+ "rule": {
+  "hba1c_gt": 6.6,
+  "glucose_gt": 200
+ },
+ "hba1c_values": [
+  3.5,
+  4.0,
+  4.5,
+  4.8,
+  5.0,
+  5.7,
+  5.8,
+  6.0,
+  6.1,
+  6.2,
+  6.5,
+  6.6,
+  6.8,
+  7.0,
+  7.5,
+  8.2,
+  8.8,
+  9.0
+ ],
+ "glucose_values": [
+  80,
+  85,
+  90,
+  100,
+  126,
+  130,
+  140,
+  145,
+  155,
+  158,
+  159,
+  160,
+  200,
+  220,
+  240,
+  260,
+  280,
+  300
+ ],
+ "models": [
+  {
+   "id": "cnn1d",
+   "name": "CNN-1D",
+   "file": "models/diabetes_cnn1d.onnx",
+   "params": 32610,
+   "threshold": 0.2962,
+   "roc_auc": 0.9745,
+   "pr_auc": 0.8694,
+   "f1": 0.7918,
+   "precision": 0.9128,
+   "recall": 0.6991
+  },
+  {
+   "id": "mlp",
+   "name": "MLP",
+   "file": "models/diabetes_mlp.onnx",
+   "params": 10178,
+   "threshold": 0.4435,
+   "roc_auc": 0.9749,
+   "pr_auc": 0.8723,
+   "f1": 0.8047,
+   "precision": 0.9863,
+   "recall": 0.6795
+  }
+ ],
+ "samples": [
+  {
+   "gender": "Female",
+   "age": 80.0,
+   "hypertension": 1,
+   "heart_disease": 1,
+   "smoking_history": "never",
+   "bmi": 28.77,
+   "HbA1c_level": 7.0,
+   "blood_glucose_level": 240,
+   "label": 1,
+   "ref": {
+    "cnn1d": 1.0,
+    "mlp": 1.0
+   }
+  },
+  {
+   "gender": "Male",
+   "age": 60.0,
+   "hypertension": 0,
+   "heart_disease": 0,
+   "smoking_history": "former",
+   "bmi": 27.32,
+   "HbA1c_level": 9.0,
+   "blood_glucose_level": 280,
+   "label": 1,
+   "ref": {
+    "cnn1d": 1.0,
+    "mlp": 1.0
+   }
+  },
+  {
+   "gender": "Male",
+   "age": 43.0,
+   "hypertension": 0,
+   "heart_disease": 0,
+   "smoking_history": "never",
+   "bmi": 27.32,
+   "HbA1c_level": 6.0,
+   "blood_glucose_level": 90,
+   "label": 0,
+   "ref": {
+    "cnn1d": 3e-06,
+    "mlp": 0.0
+   }
+  },
+  {
+   "gender": "Male",
+   "age": 21.0,
+   "hypertension": 0,
+   "heart_disease": 0,
+   "smoking_history": "former",
+   "bmi": 46.56,
+   "HbA1c_level": 5.7,
+   "blood_glucose_level": 85,
+   "label": 0,
+   "ref": {
+    "cnn1d": 1e-06,
+    "mlp": 0.0
+   }
+  },
+  {
+   "gender": "Female",
+   "age": 44.0,
+   "hypertension": 0,
+   "heart_disease": 0,
+   "smoking_history": "ever",
+   "bmi": 40.74,
+   "HbA1c_level": 6.6,
+   "blood_glucose_level": 160,
+   "label": 1,
+   "ref": {
+    "cnn1d": 0.076071,
+    "mlp": 0.069739
+   }
+  },
+  {
+   "gender": "Female",
+   "age": 41.0,
+   "hypertension": 0,
+   "heart_disease": 0,
+   "smoking_history": "not current",
+   "bmi": 42.76,
+   "HbA1c_level": 6.2,
+   "blood_glucose_level": 140,
+   "label": 1,
+   "ref": {
+    "cnn1d": 0.106321,
+    "mlp": 0.206483
+   }
+  }
+ ],
+ "baselines": {
+  "Quy tắc ngưỡng": 0.8331,
+  "Logistic Regression": 0.961,
+  "Random Forest": 0.9695,
+  "HistGradientBoosting": 0.9775,
+  "MLP": 0.9749,
+  "CNN-1D": 0.9745
+ }
+}

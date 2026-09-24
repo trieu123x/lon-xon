@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CNN Lab — Assignment 05</title>
+  <meta name="description" content="LeNet-5, AlexNet, VGG-16, ResNet-50 và CNN-1D trên CIFAR-10, Flowers Recognition, Diabetes Prediction — suy luận 100% trong trình duyệt bằng ONNX Runtime Web.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5bd3'/%3E%3Cg fill='%23fff'%3E%3Crect x='6' y='6' width='8' height='8' rx='1.5'/%3E%3Crect x='18' y='6' width='8' height='8' rx='1.5' opacity='.6'/%3E%3Crect x='6' y='18' width='8' height='8' rx='1.5' opacity='.6'/%3E%3Crect x='18' y='18' width='8' height='8' rx='1.5' opacity='.3'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.min.js"></script>
+</head>
+<body data-page="index">
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <h1>CNN Lab <span class="muted">· Assignment 05</span></h1>
+          <p class="sub">Đinh Hải Triều · B23DCCN843 · Lớp 06 — Intelligent System Development, TS. Trần Đình Quế</p>
+        </div>
+      </a>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng/tối">◐</button>
+    </div>
+    <nav class="wrap tabs" aria-label="Các trang">
+      <a href="./" aria-current="page">Trang chủ <small>tổng quan</small></a>
+      <a href="cifar10">CIFAR-10 <small>10 lớp · 32×32</small></a>
+      <a href="flowers">Flowers <small>5 loài · 128×128</small></a>
+      <a href="diabetes">Diabetes <small>dữ liệu bảng · CNN-1D</small></a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h2>Ba bộ dữ liệu Kaggle · bốn kiến trúc CNN · không máy chủ</h2>
+      <p class="muted">Mọi mô hình được huấn luyện cục bộ trên GPU laptop rồi xuất ra ONNX. Trang này chỉ là
+        các file tĩnh: trình duyệt của bạn tự tải trọng số về và chạy suy luận bằng WebAssembly, và ảnh của
+        bạn không bao giờ rời khỏi máy.</p>
+    </section>
+    <div class="cards">
+      <a class="card ds-card" href="cifar10">
+        <span class="ds-tag">Trang 1 · ảnh 32×32 · 10 lớp</span>
+        <h3>CIFAR-10</h3>
+        <p class="muted">LeNet-5, AlexNet, VGG-16, ResNet-50 huấn luyện từ đầu với cùng một công thức.</p>
+        <p class="ds-num"><b>92,2%</b> <span class="muted">ResNet-50 · accuracy test</span></p>
+        <span class="ds-go">Thử phân loại ảnh →</span>
+      </a>
+      <a class="card ds-card" href="flowers">
+        <span class="ds-tag">Trang 2 · ảnh 128×128 · 5 loài</span>
+        <h3>Flowers Recognition</h3>
+        <p class="muted">Chỉ ~3.000 ảnh train: học chuyển giao ImageNet hơn học từ đầu 11 điểm.</p>
+        <p class="ds-num"><b>93,0%</b> <span class="muted">ResNet-50 (ImageNet) · accuracy test</span></p>
+        <span class="ds-go">Nhận diện loài hoa →</span>
+      </a>
+      <a class="card ds-card" href="diabetes">
+        <span class="ds-tag">Trang 3 · dữ liệu bảng · nhị phân</span>
+        <h3>Diabetes Prediction</h3>
+        <p class="muted">CNN-1D kiểu LeNet so với MLP trên 100.000 hồ sơ, 13 đặc trưng.</p>
+        <p class="ds-num"><b>0,975</b> <span class="muted">CNN-1D · ROC-AUC test</span></p>
+        <span class="ds-go">Ước lượng nguy cơ →</span>
+      </a>
+    </div>
+<section class="panel about">
+      <div class="card prose">
+        <h2>Cách trang này hoạt động</h2>
+        <div class="flow" aria-label="Luồng dữ liệu">
+          <div class="node"><b>Kaggle</b><small>3 bộ dữ liệu</small></div>
+          <div class="edge">tải về</div>
+          <div class="node"><b>PyTorch + RTX 3060</b><small>huấn luyện cục bộ</small></div>
+          <div class="edge">ONNX + int8</div>
+          <div class="node"><b>Vercel (tĩnh)</b><small>chỉ phục vụ file</small></div>
+          <div class="edge">fetch</div>
+          <div class="node accent"><b>Trình duyệt của bạn</b><small>ONNX Runtime Web (WASM)</small></div>
+        </div>
+        <ul>
+          <li><b>Serverless thật sự:</b> không có API, không có máy chủ suy luận. Vercel chỉ trả về các file
+            <code>.onnx</code> và <code>.json</code> tĩnh; mọi phép tính chạy bằng WebAssembly ngay trên máy người dùng,
+            và ảnh của bạn <b>không rời khỏi trình duyệt</b>.</li>
+          <li><b>Lượng tử hoá trọng số int8 theo kênh:</b> file nhỏ đi khoảng 4 lần (ResNet-50: 94 MB → 24 MB). Nút
+            <code>DequantizeLinear</code> trong đồ thị khôi phục trọng số float32, nên phép tính vẫn là float32.</li>
+          <li><b>Tiền xử lý giống hệt Python:</b> cắt hình vuông ở giữa, thu nhỏ, chia 255. Chuẩn hoá mean/std nằm
+            trong mô hình. Ảnh mẫu là PNG không nén mất mát nên cho ra đúng từng điểm ảnh như lúc kiểm thử.</li>
+        </ul>
+        <h3>Tự kiểm chứng</h3>
+        <p>Nút dưới đây chạy <b>tất cả ảnh mẫu qua tất cả mô hình</b> trên trình duyệt này, rồi so xác suất với giá trị
+          tham chiếu mà Python/onnxruntime đã ghi vào file JSON. Thao tác này tải khoảng 90 MB mô hình.</p>
+        <button class="btn" id="selfTestBtn" type="button">Chạy kiểm chứng parity</button>
+        <pre id="selfTestOut" class="mono" hidden></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot muted">
+    Dữ liệu: <a href="https://www.kaggle.com/datasets/quanbk/cifar10" target="_blank" rel="noopener">CIFAR-10</a> ·
+    <a href="https://www.kaggle.com/datasets/alxmamaev/flowers-recognition" target="_blank" rel="noopener">Flowers Recognition</a> ·
+    <a href="https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset" target="_blank" rel="noopener">Diabetes Prediction</a>
+    — suy luận: ONNX Runtime Web <span id="ortVer"></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
